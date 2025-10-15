@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Listas por Segmentos</title>
+  <meta name="description" content="Listas por segmentos con retratos y contornos glow." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --panel:#12151a;
+      --panel-2:#0e1014;
+      --text:#e7edf4;
+      --muted:#9aa6b2;
+      --brand:#e11d48;
+      --ring: 0 0 0 2px color-mix(in oklab, var(--brand) 65%, #fff 0%);
+      --radius:18px;
+      --gap:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1a1f2f55, transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, #2e153955, transparent 50%),
+        var(--bg);
+      letter-spacing: .1px;
+    }
+
+    /* ====== NAV ====== */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background:linear-gradient(180deg, #0b0d10cc, #0b0d10a0 60%, transparent);
+      border-bottom:1px solid #1e242e;
+    }
+    .nav .wrap{
+      max-width:1100px; margin:0 auto; padding:12px 20px;
+      display:flex; align-items:center; gap:16px;
+    }
+    .nav .logo{
+      display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
+      font-weight:800; letter-spacing:.4px;
+    }
+    .nav .logo .dot{ width:10px; height:10px; border-radius:10px; background:#e11d48; box-shadow:0 0 16px #e11d48aa}
+    .nav .spacer{ flex:1 }
+    .nav .links a{ color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:10px }
+    .nav .links a:hover{ color:var(--text); background:#1a1f2a }
+
+    /* ====== HEADER ====== */
+    .header{
+      max-width:1100px; margin:24px auto 10px; padding:22px 20px 8px;
+      display:grid; grid-template-columns:1fr auto; gap:10px; align-items:end;
+    }
+    .header h1{ margin:0; font-size:clamp(22px, 2.4vw + 14px, 40px); }
+    .header p{ margin:4px 0 0; color:var(--muted) }
+    .header .controls{ display:flex; gap:8px; align-items:center }
+    .btn{
+      border:1px solid #263143; background:linear-gradient(180deg,#151a22,#0d1118);
+      border-radius:12px; color:var(--text); padding:10px 14px; font-weight:600; cursor:pointer;
+    }
+    .btn:hover{ filter:brightness(1.05) }
+
+    /* ====== LIST GRID ====== */
+    .section{
+      max-width:1100px; margin:6px auto 24px; padding:0 20px;
+    }
+    .section h2{
+      margin:12px 0 12px; font-size:20px; font-weight:800; letter-spacing:.2px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted);
+      background:linear-gradient(180deg, #141821, #0f131a); border:1px solid #242c39; padding:6px 10px; border-radius:999px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--gap);
+    }
+
+    /* ====== PORTRAIT CARD ====== */
+    .card{
+      position:relative; overflow:hidden; border-radius: var(--radius);
+      background: linear-gradient(180deg, #12161e, #0b0e14 40%, #0a0c11);
+      border:1px solid #1c2432;
+      transition: transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 1px 0 #1b2230, inset 0 1px 0 #0b0e14;
+    }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 8px 24px #0007 }
+    .portrait{
+      aspect-ratio: 1 / 1.25;
+      display:grid; place-items:center;
+      background: radial-gradient(120% 90% at 50% 20%, #1e2432, #0b0e14);
+      position:relative;
+      overflow:hidden;
+    }
+    .portrait[data-name]::after{
+      content: attr(data-name);
+      position:absolute; inset:auto 10px 10px 10px;
+      font-weight:800;
+      letter-spacing:.3px;
+      opacity:.95;
+      text-shadow: 0 1px 0 #000;
+    }
+    .portrait .img{
+      position:absolute; inset:0; background-size:cover; background-position:center;
+      filter:saturate(1.05) contrast(1.1);
+      opacity:.9;
+    }
+    /* Glow outlines */
+    .glow{
+      position:absolute; inset:-2px; border-radius: inherit; pointer-events:none;
+      box-shadow: 0 0 0 2px #000 inset;
+    }
+    .glow.glow-red   { box-shadow: 0 0 0 2px #ff2d55, 0 0 32px 2px #ff2d55aa, inset 0 0 0 1px #000; }
+    .glow.glow-yellow{ box-shadow: 0 0 0 2px #ffd400, 0 0 32px 2px #ffd400aa, inset 0 0 0 1px #000; }
+    .glow.glow-green { box-shadow: 0 0 0 2px #22c55e, 0 0 32px 2px #22c55eaa, inset 0 0 0 1px #000; }
+
+    .card footer{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:10px 12px; border-top:1px solid #1b2230; color:var(--muted);
+      background:linear-gradient(180deg, #0c1016, #0a0d12);
+      font-size:12px;
+    }
+    .tag{ padding:4px 8px; border-radius:999px; border:1px solid #283246; }
+    .select{
+      background:#0f131a; color:var(--text); border:1px solid #283246; border-radius:8px; padding:6px 8px;
+    }
+
+    /* ====== FOOTER ====== */
+    .footer{
+      max-width:1100px; margin:40px auto; padding:20px; color:var(--muted);
+      border-top:1px solid #1e2430;
+    }
+    .footer small{ color:#8090a6 }
+
+    /* Small helper for potential “images/” without assets yet */
+    .placeholder{
+      background-image: radial-gradient(40% 40% at 40% 10%, #2a3448, transparent 70%), linear-gradient(180deg, #0a0d12, #0e141f 70%);
+    }
+
+    @media (max-width:640px){
+      .header{ grid-template-columns:1fr; align-items:start }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="wrap">
+      <a class="logo" href="#">
+        <span class="dot"></span>
+        <span>Listas por Segmentos</span>
+      </a>
+      <div class="spacer"></div>
+      <div class="links">
+        <a href="#unifrann264">Unifrann264</a>
+        <a href="#diegaster">Diegaster</a>
+        <a href="#prince">Prince</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div>
+      <h1>Segmentos con Retratos y Glow</h1>
+      <p>Mantiene un estilo oscuro similar (.nav, .header, .footer) y permite contorno <b>glow</b> rojo, amarillo o verde para cada retrato.</p>
+    </div>
+    <div class="controls">
+      <button class="btn" id="toggleLabels">Alternar nombres</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- UNIFRANN264 -->
+    <section class="section" id="unifrann264">
+      <h2>Unifrann264 <span class="chip">Blight · Krasue · Dracula</span></h2>
+      <div class="grid">
+        <!-- Blight -->
+        <article class="card" data-entity="Blight">
+          <div class="portrait placeholder" data-name="Blight">
+            <div class="img" style="background-image:url('images/blight.jpg')"></div>
+            <span class="glow glow-red"></span>
+          </div>
+          <footer>
+            <span class="tag">Unifrann264</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red" selected>Rojo</option>
+                <option value="glow-yellow">Amarillo</option>
+                <option value="glow-green">Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+
+        <!-- Krasue -->
+        <article class="card" data-entity="Krasue">
+          <div class="portrait placeholder" data-name="Krasue">
+            <div class="img" style="background-image:url('images/krasue.jpg')"></div>
+            <span class="glow glow-yellow"></span>
+          </div>
+          <footer>
+            <span class="tag">Unifrann264</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red">Rojo</option>
+                <option value="glow-yellow" selected>Amarillo</option>
+                <option value="glow-green">Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+
+        <!-- Dracula -->
+        <article class="card" data-entity="Dracula">
+          <div class="portrait placeholder" data-name="Dracula">
+            <div class="img" style="background-image:url('images/dracula.jpg')"></div>
+            <span class="glow glow-green"></span>
+          </div>
+          <footer>
+            <span class="tag">Unifrann264</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red">Rojo</option>
+                <option value="glow-yellow">Amarillo</option>
+                <option value="glow-green" selected>Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <!-- DIEGASTER -->
+    <section class="section" id="diegaster">
+      <h2>Diegaster <span class="chip">Mastermind · Xenomorph · Animatronic · Lich · Cenobite · Nemesis</span></h2>
+      <div class="grid">
+        <!-- Mastermind -->
+        <article class="card" data-entity="Mastermind">
+          <div class="portrait placeholder" data-name="Mastermind">
+            <div class="img" style="background-image:url('images/mastermind.jpg')"></div>
+            <span class="glow glow-yellow"></span>
+          </div>
+          <footer>
+            <span class="tag">Diegaster</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red">Rojo</option>
+                <option value="glow-yellow" selected>Amarillo</option>
+                <option value="glow-green">Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+
+        <!-- Xenomorph -->
+        <article class="card" data-entity="Xenomorph">
+          <div class="portrait placeholder" data-name="Xenomorph">
+            <div class="img" style="background-image:url('images/xenomorph.jpg')"></div>
+            <span class="glow glow-green"></span>
+          </div>
+          <footer>
+            <span class="tag">Diegaster</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red">Rojo</option>
+                <option value="glow-yellow">Amarillo</option>
+                <option value="glow-green" selected>Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+
+        <!-- Animatronic -->
+        <article class="card" data-entity="Animatronic">
+          <div class="portrait placeholder" data-name="Animatronic">
+            <div class="img" style="background-image:url('images/animatronic.jpg')"></div>
+            <span class="glow glow-red"></span>
+          </div>
+          <footer>
+            <span class="tag">Diegaster</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red" selected>Rojo</option>
+                <option value="glow-yellow">Amarillo</option>
+                <option value="glow-green">Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+
+        <!-- Lich -->
+        <article class="card" data-entity="Lich">
+          <div class="portrait placeholder" data-name="Lich">
+            <div class="img" style="background-image:url('images/lich.jpg')"></div>
+            <span class="glow glow-yellow"></span>
+          </div>
+          <footer>
+            <span class="tag">Diegaster</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red">Rojo</option>
+                <option value="glow-yellow" selected>Amarillo</option>
+                <option value="glow-green">Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+
+        <!-- Cenobite -->
+        <article class="card" data-entity="Cenobite">
+          <div class="portrait placeholder" data-name="Cenobite">
+            <div class="img" style="background-image:url('images/cenobite.jpg')"></div>
+            <span class="glow glow-green"></span>
+          </div>
+          <footer>
+            <span class="tag">Diegaster</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red">Rojo</option>
+                <option value="glow-yellow">Amarillo</option>
+                <option value="glow-green" selected>Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+
+        <!-- Nemesis -->
+        <article class="card" data-entity="Nemesis">
+          <div class="portrait placeholder" data-name="Nemesis">
+            <div class="img" style="background-image:url('images/nemesis.jpg')"></div>
+            <span class="glow glow-red"></span>
+          </div>
+          <footer>
+            <span class="tag">Diegaster</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red" selected>Rojo</option>
+                <option value="glow-yellow">Amarillo</option>
+                <option value="glow-green">Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <!-- PRINCE -->
+    <section class="section" id="prince">
+      <h2>Prince <span class="chip">Ghoul</span></h2>
+      <div class="grid">
+        <!-- Ghoul -->
+        <article class="card" data-entity="Ghoul">
+          <div class="portrait placeholder" data-name="Ghoul">
+            <div class="img" style="background-image:url('images/ghoul.jpg')"></div>
+            <span class="glow glow-green"></span>
+          </div>
+          <footer>
+            <span class="tag">Prince</span>
+            <label>Glow:
+              <select class="select glow-select">
+                <option value="glow-red">Rojo</option>
+                <option value="glow-yellow">Amarillo</option>
+                <option value="glow-green" selected>Verde</option>
+              </select>
+            </label>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <strong>Pie de página</strong>
+      <div><small>© 2025 Proyecto de listas. Mantiene estructura de <code>.nav</code>, <code>.header</code> y <code>.footer</code>.</small></div>
+    </div>
+  </footer>
+
+  <script>
+    // Alternar visibilidad de labels (usa el atributo data-name)
+    const btn = document.getElementById('toggleLabels');
+    let labelsOn = true;
+    btn?.addEventListener('click', () => {
+      labelsOn = !labelsOn;
+      document.querySelectorAll('.portrait').forEach(el => {
+        el.style.setProperty('--show-label', labelsOn ? '1' : '0');
+        el.toggleAttribute('data-nolabel', !labelsOn);
+      });
+    });
+
+    // Selectores para cambiar el color del glow
+    document.querySelectorAll('.card').forEach(card => {
+      const select = card.querySelector('.glow-select');
+      const glow = card.querySelector('.glow');
+      select?.addEventListener('change', e => {
+        glow.classList.remove('glow-red','glow-yellow','glow-green');
+        glow.classList.add(e.target.value);
+      });
+    });
+  </script>
+</body>
+</html>
