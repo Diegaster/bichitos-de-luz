@@ -8,403 +8,392 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#0b0d10;
-      --panel:#12151a;
-      --panel-2:#0e1014;
-      --text:#e7edf4;
-      --muted:#9aa6b2;
-      --brand:#e11d48;
-      --ring: 0 0 0 2px color-mix(in oklab, var(--brand) 65%, #fff 0%);
-      --radius:18px;
-      --gap:18px;
-    }
+<style>
+    :root{--bg:#0b0d10;--text:#e7edf4;--muted:#9aa6b2;--radius:18px;--gap:18px;}
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 10% -10%, #1a1f2f55, transparent 60%),
-        radial-gradient(900px 500px at 110% 10%, #2e153955, transparent 50%),
-        var(--bg);
-      letter-spacing: .1px;
-    }
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#0b0d10}
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:linear-gradient(180deg,#0b0d10cc,#0b0d10a0 60%,transparent);border-bottom:1px solid #1e242e}
+    .nav .wrap{max-width:1100px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
+    .nav .logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-weight:800}
+    .nav .logo .dot{width:10px;height:10px;border-radius:10px;background:#93c5fd;box-shadow:0 0 12px #93c5fd80,0 0 20px #f9a8d480}
+    .header{max-width:1100px;margin:24px auto 10px;padding:22px 20px 8px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+    .section{max-width:1100px;margin:6px auto 24px;padding:0 20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--gap)}
+    .card{position:relative;overflow:hidden;border-radius:var(--radius);background:linear-gradient(180deg,#12161e,#0b0e14 40%,#0a0c11);border:1px solid #1c2432;box-shadow:0 1px 0 #1b2230,inset 0 1px 0 #0b0e14}
 
-    /* ====== NAV ====== */
-    .nav{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(10px);
-      background:linear-gradient(180deg, #0b0d10cc, #0b0d10a0 60%, transparent);
-      border-bottom:1px solid #1e242e;
-    }
-    .nav .wrap{
-      max-width:1100px; margin:0 auto; padding:12px 20px;
-      display:flex; align-items:center; gap:16px;
-    }
-    .nav .logo{
-      display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
-      font-weight:800; letter-spacing:.4px;
-    }
-    .nav .logo .dot{ width:10px; height:10px; border-radius:10px; background:#e11d48; box-shadow:0 0 16px #e11d48aa}
-    .nav .spacer{ flex:1 }
-    .nav .links a{ color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:10px }
-    .nav .links a:hover{ color:var(--text); background:#1a1f2a }
-
-    /* ====== HEADER ====== */
-    .header{
-      max-width:1100px; margin:24px auto 10px; padding:22px 20px 8px;
-      display:grid; grid-template-columns:1fr auto; gap:10px; align-items:end;
-    }
-    .header h1{ margin:0; font-size:clamp(22px, 2.4vw + 14px, 40px); }
-    .header p{ margin:4px 0 0; color:var(--muted) }
-    .header .controls{ display:flex; gap:8px; align-items:center }
-    .btn{
-      border:1px solid #263143; background:linear-gradient(180deg,#151a22,#0d1118);
-      border-radius:12px; color:var(--text); padding:10px 14px; font-weight:600; cursor:pointer;
-    }
-    .btn:hover{ filter:brightness(1.05) }
-
-    /* ====== LIST GRID ====== */
-    .section{
-      max-width:1100px; margin:6px auto 24px; padding:0 20px;
-    }
-    .section h2{
-      margin:12px 0 12px; font-size:20px; font-weight:800; letter-spacing:.2px;
-      display:flex; align-items:center; gap:10px;
-    }
-    .chip{
-      display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted);
-      background:linear-gradient(180deg, #141821, #0f131a); border:1px solid #242c39; padding:6px 10px; border-radius:999px;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: var(--gap);
-    }
-
-    /* ====== PORTRAIT CARD ====== */
-    .card{
-      position:relative; overflow:hidden; border-radius: var(--radius);
-      background: linear-gradient(180deg, #12161e, #0b0e14 40%, #0a0c11);
-      border:1px solid #1c2432;
-      transition: transform .2s ease, box-shadow .2s ease;
-      box-shadow: 0 1px 0 #1b2230, inset 0 1px 0 #0b0e14;
-    }
-    .card:hover{ transform: translateY(-2px); box-shadow: 0 8px 24px #0007 }
+    /* === Retrato con fondo animado (celeste ↔ rosa) === */
     .portrait{
-      aspect-ratio: 1 / 1.25;
-      display:grid; place-items:center;
-      background: radial-gradient(120% 90% at 50% 20%, #1e2432, #0b0e14);
-      position:relative;
-      overflow:hidden;
+      aspect-ratio:1/1.25; display:grid; place-items:center; position:relative; overflow:hidden;
+      border-radius:inherit; border:1px solid #263247; /* contorno sutil */
+      background:#0b0d10;
     }
-    .portrait[data-name]::after{
-      content: attr(data-name);
-      position:absolute; inset:auto 10px 10px 10px;
-      font-weight:800;
-      letter-spacing:.3px;
-      opacity:.95;
-      text-shadow: 0 1px 0 #000;
-    }
-    .portrait .img{
-      position:absolute; inset:0; background-size:cover; background-position:center;
-      filter:saturate(1.05) contrast(1.1);
+    /* capa de aurora animada debajo de la imagen */
+    .portrait::before{
+      content:""; position:absolute; inset:-25%; border-radius:inherit; z-index:1;
+      background:
+        radial-gradient(40% 55% at 20% 20%, rgba(22, 177, 244, 0.93), transparent 60%),
+        radial-gradient(45% 60% at 80% 70%, rgba(16, 177, 251, 1), transparent 60%),
+        conic-gradient(from 0deg, #4fbbfeff, #f49107ff, #93c5fd);
+      filter: blur(26px) saturate(1.1);
+      animation: swirl 14s linear infinite;
       opacity:.9;
     }
-    /* Glow outlines */
-    .glow{
-      position:absolute; inset:-2px; border-radius: inherit; pointer-events:none;
-      box-shadow: 0 0 0 2px #000 inset;
+    /* imagen arriba de la aurora */
+    .portrait .img{
+      position:absolute; inset:0; z-index:2;
+      background-size:cover; background-position:center;
+      filter:saturate(1.05) contrast(1.08);
     }
-    .glow.glow-red   { box-shadow: 0 0 0 2px #ff2d55, 0 0 32px 2px #ff2d55aa, inset 0 0 0 1px #000; }
-    .glow.glow-yellow{ box-shadow: 0 0 0 2px #ffd400, 0 0 32px 2px #ffd400aa, inset 0 0 0 1px #000; }
-    .glow.glow-green { box-shadow: 0 0 0 2px #22c55e, 0 0 32px 2px #22c55eaa, inset 0 0 0 1px #000; }
-
-    .card footer{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:10px 12px; border-top:1px solid #1b2230; color:var(--muted);
-      background:linear-gradient(180deg, #0c1016, #0a0d12);
-      font-size:12px;
-    }
-    .tag{ padding:4px 8px; border-radius:999px; border:1px solid #283246; }
-    .select{
-      background:#0f131a; color:var(--text); border:1px solid #283246; border-radius:8px; padding:6px 8px;
+    /* etiqueta del nombre EN sobre la imagen */
+    .portrait[data-name]::after{
+      content: attr(data-name);
+      position:absolute; inset:auto 10px 10px 10px; z-index:3;
+      font-weight:800; letter-spacing:.3px; opacity:.95; text-shadow:0 1px 0 #000;
     }
 
-    /* ====== FOOTER ====== */
-    .footer{
-      max-width:1100px; margin:40px auto; padding:20px; color:var(--muted);
-      border-top:1px solid #1e2430;
-    }
-    .footer small{ color:#8090a6 }
-
-    /* Small helper for potential “images/” without assets yet */
-    .placeholder{
-      background-image: radial-gradient(40% 40% at 40% 10%, #2a3448, transparent 70%), linear-gradient(180deg, #0a0d12, #0e141f 70%);
+    @keyframes swirl{
+      0%   { transform: rotate(0deg) scale(1.05); }
+      50%  { transform: rotate(180deg) scale(1.08); }
+      100% { transform: rotate(360deg) scale(1.05); }
     }
 
-    @media (max-width:640px){
-      .header{ grid-template-columns:1fr; align-items:start }
-    }
+    .card footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-top:1px solid #1b2230;color:var(--muted);background:linear-gradient(180deg,#0c1016,#0a0d12);font-size:12px}
+    .es-name{font-weight:600;color:var(--text)}
   </style>
 </head>
 <body>
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="wrap">
-      <a class="logo" href="#">
-        <span class="dot"></span>
-        <span>Listas por Segmentos</span>
-      </a>
-      <div class="spacer"></div>
-      <div class="links">
-        <a href="#unifrann264">Unifrann264</a>
-        <a href="#diegaster">Diegaster</a>
-        <a href="#prince">Prince</a>
-      </div>
-    </div>
-  </nav>
+
 
   <!-- HEADER -->
   <header class="header">
     <div>
-      <h1>Segmentos con Retratos y Glow</h1>
-      <p>Mantiene un estilo oscuro similar (.nav, .header, .footer) y permite contorno <b>glow</b> rojo, amarillo o verde para cada retrato.</p>
-    </div>
-    <div class="controls">
-      <button class="btn" id="toggleLabels">Alternar nombres</button>
+      <h1>Lista de killers ocupados por cada jugador</h1>
+      <p> <b> IMPORTANTE: </b> Cada reasignación o apropiamiento de un killer <b> DEBE </b> ser consultada con el líder del equipo. Él tiene la última palabra, y valorará lo que sea mejor para el equipo. <br/> Los killers que figuran como disponibles, son aquellos para los que no tenemos ningún jugador designado.</p>
     </div>
   </header>
 
   <main>
     <!-- UNIFRANN264 -->
     <section class="section" id="unifrann264">
-      <h2>Unifrann264 <span class="chip">Blight · Krasue · Dracula</span></h2>
+      <h2>Unifrann264</h2>
       <div class="grid">
-        <!-- Blight -->
+        <!-- Blight -> Deterioro -->
         <article class="card" data-entity="Blight">
-          <div class="portrait placeholder" data-name="Blight">
-            <div class="img" style="background-image:url('images/blight.jpg')"></div>
+          <div class="portrait placeholder glow-red" data-name="Blight">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/K21_TheBlight_Portrait.png?bb5b92"></div>
             <span class="glow glow-red"></span>
           </div>
-          <footer>
-            <span class="tag">Unifrann264</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red" selected>Rojo</option>
-                <option value="glow-yellow">Amarillo</option>
-                <option value="glow-green">Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Deterioro</span></footer>
         </article>
 
         <!-- Krasue -->
         <article class="card" data-entity="Krasue">
-          <div class="portrait placeholder" data-name="Krasue">
-            <div class="img" style="background-image:url('images/krasue.jpg')"></div>
+          <div class="portrait placeholder glow-yellow" data-name="Krasue">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/K41_TheKrasue_Portrait.png?3513ba"></div>
             <span class="glow glow-yellow"></span>
           </div>
-          <footer>
-            <span class="tag">Unifrann264</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red">Rojo</option>
-                <option value="glow-yellow" selected>Amarillo</option>
-                <option value="glow-green">Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Krasue</span></footer>
         </article>
 
-        <!-- Dracula -->
-        <article class="card" data-entity="Dracula">
-          <div class="portrait placeholder" data-name="Dracula">
-            <div class="img" style="background-image:url('images/dracula.jpg')"></div>
-            <span class="glow glow-green"></span>
+        <!-- Dark Lord / Dracula -> Señor Oscuro (Drácula) -->
+        <article class="card" data-entity="Dark Lord">
+          <div class="portrait placeholder glow-red" data-name="Dark Lord">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/K37_TheDarkLord_Portrait.png?d391a7"></div>
+            <span class="glow glow-red"></span>
           </div>
-          <footer>
-            <span class="tag">Unifrann264</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red">Rojo</option>
-                <option value="glow-yellow">Amarillo</option>
-                <option value="glow-green" selected>Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Señor Oscuro (Drácula)</span></footer>
+        </article>
+        <article class="card" data-entity="Executioner">
+          <div class="portrait" data-name="Executioner">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/c/c9/K20_TheExecutioner_Portrait.png?286cd2"></div>
+          </div>
+          <footer><span class="es-name">Ejecutor (Pyramid Head)</span></footer>
         </article>
       </div>
     </section>
 
     <!-- DIEGASTER -->
     <section class="section" id="diegaster">
-      <h2>Diegaster <span class="chip">Mastermind · Xenomorph · Animatronic · Lich · Cenobite · Nemesis</span></h2>
+      <h2>Diegaster</h2>
       <div class="grid">
-        <!-- Mastermind -->
+        <!-- Mastermind -> Mente Maestra -->
         <article class="card" data-entity="Mastermind">
-          <div class="portrait placeholder" data-name="Mastermind">
-            <div class="img" style="background-image:url('images/mastermind.jpg')"></div>
-            <span class="glow glow-yellow"></span>
+          <div class="portrait placeholder glow-red" data-name="Mastermind">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/e/ec/K29_TheMastermind_Portrait.png?84582c"></div>
+            <span class="glow glow-red"></span>
           </div>
-          <footer>
-            <span class="tag">Diegaster</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red">Rojo</option>
-                <option value="glow-yellow" selected>Amarillo</option>
-                <option value="glow-green">Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Mente Maestra (Wesker)</span></footer>
         </article>
 
-        <!-- Xenomorph -->
+        <!-- Xenomorph -> Xenomorfo -->
         <article class="card" data-entity="Xenomorph">
-          <div class="portrait placeholder" data-name="Xenomorph">
-            <div class="img" style="background-image:url('images/xenomorph.jpg')"></div>
-            <span class="glow glow-green"></span>
-          </div>
-          <footer>
-            <span class="tag">Diegaster</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red">Rojo</option>
-                <option value="glow-yellow">Amarillo</option>
-                <option value="glow-green" selected>Verde</option>
-              </select>
-            </label>
-          </footer>
-        </article>
-
-        <!-- Animatronic -->
-        <article class="card" data-entity="Animatronic">
-          <div class="portrait placeholder" data-name="Animatronic">
-            <div class="img" style="background-image:url('images/animatronic.jpg')"></div>
+          <div class="portrait placeholder glow-red" data-name="Xenomorph">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/6/64/K33_TheXenomorph_Portrait.png?17ff7e"></div>
             <span class="glow glow-red"></span>
           </div>
-          <footer>
-            <span class="tag">Diegaster</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red" selected>Rojo</option>
-                <option value="glow-yellow">Amarillo</option>
-                <option value="glow-green">Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Xenomorfo</span></footer>
         </article>
 
-        <!-- Lich -->
+        <!-- Animatronic -> Animatrónico -->
+        <article class="card" data-entity="Animatronic">
+          <div class="portrait placeholder glow-red" data-name="Animatronic">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/0/02/K40_TheAnimatronic_Portrait.png?636799"></div>
+            <span class="glow glow-red"></span>
+          </div>
+          <footer><span class="es-name">Animatrónico (Springtrap)</span></footer>
+        </article>
+
+        <!-- Lich -> Liche -->
         <article class="card" data-entity="Lich">
-          <div class="portrait placeholder" data-name="Lich">
-            <div class="img" style="background-image:url('images/lich.jpg')"></div>
+          <div class="portrait placeholder glow-yellow" data-name="Lich">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/K36_TheLich_Portrait.png?25df98"></div>
             <span class="glow glow-yellow"></span>
           </div>
-          <footer>
-            <span class="tag">Diegaster</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red">Rojo</option>
-                <option value="glow-yellow" selected>Amarillo</option>
-                <option value="glow-green">Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Liche (Vecna)</span></footer>
         </article>
 
-        <!-- Cenobite -->
+        <!-- Cenobite -> Cenobita -->
         <article class="card" data-entity="Cenobite">
-          <div class="portrait placeholder" data-name="Cenobite">
-            <div class="img" style="background-image:url('images/cenobite.jpg')"></div>
-            <span class="glow glow-green"></span>
+          <div class="portrait placeholder glow-yellow" data-name="Cenobite">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/K25_TheCenobite_Portrait.png?6b9046"></div>
+            <span class="glow glow-yellow"></span>
           </div>
-          <footer>
-            <span class="tag">Diegaster</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red">Rojo</option>
-                <option value="glow-yellow">Amarillo</option>
-                <option value="glow-green" selected>Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Cenobita (Pinhead)</span></footer>
         </article>
 
-        <!-- Nemesis -->
+        <!-- Nemesis -> Némesis -->
         <article class="card" data-entity="Nemesis">
-          <div class="portrait placeholder" data-name="Nemesis">
-            <div class="img" style="background-image:url('images/nemesis.jpg')"></div>
+          <div class="portrait placeholder glow-red" data-name="Nemesis">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/K24_TheNemesis_Portrait.png?891941"></div>
             <span class="glow glow-red"></span>
           </div>
-          <footer>
-            <span class="tag">Diegaster</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red" selected>Rojo</option>
-                <option value="glow-yellow">Amarillo</option>
-                <option value="glow-green">Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Némesis</span></footer>
         </article>
       </div>
     </section>
-
+     <!-- MANU -->
+    <section class="section" id="manu">
+      <h2>Manu</h2>
+      <div class="grid">
+      <article class="card" data-entity="Trapper">
+        <div class="portrait" data-name="Trapper">
+          <div class="img" data-src="https://deadbydaylight.wiki.gg/images/8/81/K01_TheTrapper_Portrait.png?564c1d"></div>
+        </div>
+        <footer><span class="es-name">Trampero</span></footer>
+      </article>
+      <article class="card" data-entity="Wraith">
+        <div class="portrait" data-name="Wraith">
+          <div class="img" data-src="https://deadbydaylight.wiki.gg/images/c/c2/K02_TheWraith_Portrait.png?fbb21b"></div>
+        </div>
+        <footer><span class="es-name">Espectro</span></footer>
+      </article>
+      <article class="card" data-entity="Nurse">
+      <div class="portrait" data-name="Nurse">
+        <div class="img" data-src="https://deadbydaylight.wiki.gg/images/3/3b/K04_TheNurse_Portrait.png?f00131"></div>
+      </div>
+      <footer><span class="es-name">Enfermera</span></footer>
+    </article>
+        <article class="card" data-entity="Shape">
+      <div class="portrait" data-name="Shape">
+        <div class="img" data-src="https://deadbydaylight.wiki.gg/images/b/b5/K05_TheShape_Portrait.png?f9bf22"></div>
+      </div>
+      <footer><span class="es-name">Forma (Myers)</span></footer>
+    </article>
+        <article class="card" data-entity="Hag">
+      <div class="portrait" data-name="Hag">
+        <div class="img" data-src="https://deadbydaylight.wiki.gg/images/c/c7/K06_TheHag_Portrait.png?60f88f"></div>
+      </div>
+      <footer><span class="es-name">Bruja</span></footer>
+    </article>
+        <article class="card" data-entity="Doctor">
+      <div class="portrait" data-name="Doctor">
+        <div class="img" data-src="https://deadbydaylight.wiki.gg/images/5/58/K07_TheDoctor_Portrait.png?9b025f"></div>
+      </div>
+      <footer><span class="es-name">Doctor</span></footer>
+    </article>
+    <article class="card" data-entity="Huntress">
+  <div class="portrait" data-name="Huntress">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/f/f1/K08_TheHuntress_Portrait.png?194544"></div>
+  </div>
+  <footer><span class="es-name">Cazadora</span></footer>
+</article>
+<article class="card" data-entity="Cannibal">
+  <div class="portrait" data-name="Cannibal">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/6/6f/K09_TheCannibal_Portrait.png?2b9b38"></div>
+  </div>
+  <footer><span class="es-name">Caníbal (Bubba)</span></footer>
+</article>
+<article class="card" data-entity="Pig">
+  <div class="portrait" data-name="Pig">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/5/5c/K11_ThePig_Portrait.png?893de3"></div>
+  </div>
+  <footer><span class="es-name">Cerda</span></footer>
+</article>
+<article class="card" data-entity="Clown">
+  <div class="portrait" data-name="Clown">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/d/d1/K12_TheClown_Portrait.png?26bd2a"></div>
+  </div>
+  <footer><span class="es-name">Payaso</span></footer>
+</article>
+<article class="card" data-entity="Spirit">
+  <div class="portrait" data-name="Spirit">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/f/f1/K13_TheSpirit_Portrait.png?c6efeb"></div>
+  </div>
+  <footer><span class="es-name">Espíritu</span></footer>
+</article>
+<article class="card" data-entity="Legion">
+  <div class="portrait" data-name="Legion">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/5/53/K14_TheLegion_Portrait.png?f9a179"></div>
+  </div>
+  <footer><span class="es-name">Legion</span></footer>
+</article>
+<article class="card" data-entity="Plague">
+  <div class="portrait" data-name="Plague">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/f/fe/K15_ThePlague_Portrait.png?e5926a"></div>
+  </div>
+  <footer><span class="es-name">Plaga</span></footer>
+</article>
+<article class="card" data-entity="Twins">
+  <div class="portrait" data-name="Twins">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/1/17/K22_TheTwins_Portrait.png?71ef1c"></div>
+  </div>
+  <footer><span class="es-name">Mellizos</span></footer>
+</article>
+<article class="card" data-entity="Onryō">
+  <div class="portrait" data-name="Onryō">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/5/5f/K27_TheOnryo_Portrait.png?50d2b8"></div>
+  </div>
+  <footer><span class="es-name">Onryō (Sadako)</span></footer>
+</article>
+<article class="card" data-entity="Dredge">
+  <div class="portrait" data-name="Dredge">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/7/7e/K28_TheDredge_Portrait.png?66319e"></div>
+  </div>
+  <footer><span class="es-name">Draga</span></footer>
+</article>
+<article class="card" data-entity="Knight">
+  <div class="portrait" data-name="Knight">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/6/69/K30_TheKnight_Portrait.png?b89c9d"></div>
+  </div>
+  <footer><span class="es-name">Caballero</span></footer>
+</article>
+<article class="card" data-entity="Skull Merchant">
+  <div class="portrait" data-name="Skull Merchant">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/6/64/K31_TheSkullMerchant_Portrait.png?91edf3"></div>
+  </div>
+  <footer><span class="es-name">Comerciante</span></footer>
+</article>
+<article class="card" data-entity="Singularity">
+  <div class="portrait" data-name="Singularity">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/2/24/K32_TheSingularity_Portrait.png?3d6300"></div>
+  </div>
+  <footer><span class="es-name">Singularidad</span></footer>
+</article>
+    </div>
+    </section>  
     <!-- PRINCE -->
     <section class="section" id="prince">
-      <h2>Prince <span class="chip">Ghoul</span></h2>
+      <h2>Prince</h2>
       <div class="grid">
         <!-- Ghoul -->
         <article class="card" data-entity="Ghoul">
-          <div class="portrait placeholder" data-name="Ghoul">
-            <div class="img" style="background-image:url('images/ghoul.jpg')"></div>
-            <span class="glow glow-green"></span>
+          <div class="portrait placeholder glow-red" data-name="Ghoul">
+            <div class="img" data-src="https://deadbydaylight.wiki.gg/images/K39_TheGhoul_Portrait.png?fbb95c"></div>
+            <span class="glow glow-red"></span>
           </div>
-          <footer>
-            <span class="tag">Prince</span>
-            <label>Glow:
-              <select class="select glow-select">
-                <option value="glow-red">Rojo</option>
-                <option value="glow-yellow">Amarillo</option>
-                <option value="glow-green" selected>Verde</option>
-              </select>
-            </label>
-          </footer>
+          <footer><span class="es-name">Ghoul (Kaneki)</span></footer>
         </article>
       </div>
     </section>
+     <!-- DISPONIBLES -->
+    <section class="section" id="disponibles">
+      <h2>Disponibles </h2>
+      <div class="grid">
+      <article class="card" data-entity="Hillbilly">
+        <div class="portrait" data-name="Hillbilly">
+          <div class="img" data-src="https://deadbydaylight.wiki.gg/images/2/24/K03_TheHillbilly_Portrait.png?b1fa3b"></div>
+        </div>
+        <footer><span class="es-name">Pueblerino (Billy)</span></footer>
+      </article>
+      <article class="card" data-entity="Nightmare">
+  <div class="portrait" data-name="Nightmare">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/d/d5/K10_TheNightmare_Portrait.png?8dfa33"></div>
+  </div>
+  <footer><span class="es-name">Pesadilla (Freddy Krueger)</span></footer>
+</article>
+<article class="card" data-entity="Ghost Face">
+  <div class="portrait" data-name="Ghost Face">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/d/d1/K16_TheGhostFace_Portrait.png?5a4629"></div>
+  </div>
+  <footer><span class="es-name">Ghost Face</span></footer>
+</article>
+<article class="card" data-entity="Demogorgon">
+  <div class="portrait" data-name="Demogorgon">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/7/75/K17_TheDemogorgon_Portrait.png?20c7d0"></div>
+  </div>
+  <footer><span class="es-name">Demogorgon</span></footer>
+</article>
+<article class="card" data-entity="Oni">
+  <div class="portrait" data-name="Oni">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/8/80/K18_TheOni_Portrait.png?22e37f"></div>
+  </div>
+  <footer><span class="es-name">Oni</span></footer>
+</article>
+<article class="card" data-entity="Deathslinger">
+  <div class="portrait" data-name="Deathslinger">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/a/ac/K19_TheDeathslinger_Portrait.png?52fc47"></div>
+  </div>
+  <footer><span class="es-name">Arponero</span></footer>
+</article>
+<article class="card" data-entity="Trickster">
+  <div class="portrait" data-name="Trickster">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/c/c9/K23_TheTrickster_Portrait.png?e4204c"></div>
+  </div>
+  <footer><span class="es-name">Embaucador</span></footer>
+</article>
+<article class="card" data-entity="Good Guy">
+  <div class="portrait" data-name="Good Guy">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/8/81/K34_TheGoodGuy_Portrait.png?4dc7a9"></div>
+  </div>
+  <footer><span class="es-name">Chico Bueno (Chucky)</span></footer>
+</article>
+<article class="card" data-entity="Unknown">
+  <div class="portrait" data-name="Unknown">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/5/51/K35_TheUnknown_Portrait.png?88bbed"></div>
+  </div>
+  <footer><span class="es-name">Desconocido</span></footer>
+</article>
+<article class="card" data-entity="Houndmaster">
+  <div class="portrait" data-name="Houndmaster">
+    <div class="img" data-src="https://deadbydaylight.wiki.gg/images/9/96/K38_TheHoundmaster_Portrait.png?6e438f"></div>
+  </div>
+  <footer><span class="es-name">Adiestradora Canina</span></footer>
+</article>
+    </div>
+    </section>  
   </main>
 
   <footer class="footer">
     <div>
-      <strong>Pie de página</strong>
-      <div><small>© 2025 Proyecto de listas. Mantiene estructura de <code>.nav</code>, <code>.header</code> y <code>.footer</code>.</small></div>
+      <div><small>© 2025 Hecho con amor por Diegaster.</small></div>
     </div>
   </footer>
 
   <script>
-    // Alternar visibilidad de labels (usa el atributo data-name)
+    // Reusar enlaces existentes: si la .img tiene data-src (URL completa o relativa), úsala
+    document.querySelectorAll('.portrait .img').forEach(el => {
+      const src = el.getAttribute('data-src');
+      if (src) el.style.backgroundImage = `url('${src}')`;
+    });
+
+    // Alternar etiqueta del nombre en inglés (overlay)
     const btn = document.getElementById('toggleLabels');
     let labelsOn = true;
     btn?.addEventListener('click', () => {
       labelsOn = !labelsOn;
       document.querySelectorAll('.portrait').forEach(el => {
-        el.style.setProperty('--show-label', labelsOn ? '1' : '0');
-        el.toggleAttribute('data-nolabel', !labelsOn);
-      });
-    });
-
-    // Selectores para cambiar el color del glow
-    document.querySelectorAll('.card').forEach(card => {
-      const select = card.querySelector('.glow-select');
-      const glow = card.querySelector('.glow');
-      select?.addEventListener('change', e => {
-        glow.classList.remove('glow-red','glow-yellow','glow-green');
-        glow.classList.add(e.target.value);
+        el.dataset.originalName ??= el.getAttribute('data-name') || '';
+        el.setAttribute('data-name', labelsOn ? el.dataset.originalName : '');
       });
     });
   </script>
