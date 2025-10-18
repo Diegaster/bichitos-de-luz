@@ -134,24 +134,14 @@
 }
 
 /* Indicadores visuales en títulos */
-h1, h2 { transition: color 0.25s ease; cursor: pointer; }
-h1:hover, h2:hover { color: #93c5fd; }
+h2 { transition: color 0.25s ease; cursor: pointer; }
+h2:hover { color: #93c5fd; }
 h2::after {
   content: " ▼";
   font-size: 0.8em;
   color: #9aa6b2;
 }
 section.section[aria-expanded="true"] > h2::after {
-  content: " ▲";
-  color: #93c5fd;
-}
-.header h1::after {
-  content: " ▼";
-  font-size: .7em;
-  margin-left: .35rem;
-  color: #9aa6b2;
-}
-.header h1[aria-expanded="true"]::after {
   content: " ▲";
   color: #93c5fd;
 }
