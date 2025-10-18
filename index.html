@@ -21,13 +21,24 @@
   .footer{max-width:1100px;margin:40px auto;padding:20px;color:var(--muted);border-top:1px solid #1e2430}
   .btn{border:1px solid #263143;background:linear-gradient(180deg,#151a22,#0d1118);border-radius:12px;color:var(--text);padding:10px 14px;font-weight:600;cursor:pointer}
   .btn:hover{filter:brightness(1.05)}
+  .logo-img {
+  height: 42px;
+  width: auto;
+  filter: drop-shadow(0 0 4px rgba(147,197,253,0.6));
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+.logo-img:hover {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 8px rgba(249,168,212,0.8));
+}
 </style>
 </head>
 <body>
   
   <nav class="nav">
     <div class="wrap">
-      <a class="logo" href="index.html"><span class="dot"></span><span>Equipo</span></a>
+      <a class="logo" href="index.html"><img src="assets/img/Entity.png" alt="Entity logo" class="logo-img">
+  <span>Entity</span><span>Equipo</span></a>
       <div class="links">
         <a href="index.html" style="color:#e7edf4;background:#141a24">Inicio</a>
         <a href="listas.html">Lista de killers</a>
@@ -37,7 +48,7 @@
   </nav>
 
   <header class="header">
-    <h1>Bienvenido</h1>
+    <h1>Bienvenido a la página del Team Entity</h1>
     <p>Usa la navegación para ir a <b>Lista de killers</b> o <b>Horarios</b>.</p>
   </header>
   <section class="section">
