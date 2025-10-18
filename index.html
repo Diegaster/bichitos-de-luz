@@ -139,5 +139,11 @@
   <footer class="footer">
     <small>© 2025 Team Entity</small>
   </footer>
+<script>
+    document.querySelectorAll('.avatar[data-src]').forEach(el => {
+      const src = el.getAttribute('data-src');
+      if (src) el.style.backgroundImage = `url('${src}')`;
+    });
+  </script>
 </body>
 </html>
