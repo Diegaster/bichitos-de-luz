@@ -45,7 +45,15 @@
     .avatar-wrap{
   position:relative; width:96px; height:96px; margin-bottom:10px;
 }
-
+.avatar{
+  position: absolute;
+  inset: 0;                 /* ocupa todo el wrap */
+  border-radius: 999px;     /* círculo */
+  background-size: cover;   /* que llene sin deformar */
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 2;
+}
 /* halo más pequeño */
 .avatar-wrap::before{
   content:""; position:absolute; inset:-6px; border-radius:999px; z-index:1;
