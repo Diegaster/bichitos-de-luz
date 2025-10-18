@@ -21,7 +21,25 @@
   .footer{max-width:1100px;margin:40px auto;padding:20px;color:var(--muted);border-top:1px solid #1e2430}
   .btn{border:1px solid #263143;background:linear-gradient(180deg,#151a22,#0d1118);border-radius:12px;color:var(--text);padding:10px 14px;font-weight:600;cursor:pointer}
   .btn:hover{filter:brightness(1.05)}
-    .members{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+    .members{
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* Opcional: responsivo */
+@media (max-width: 1200px){
+  .members{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 900px){
+  .members{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px){
+  .members{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px){
+  .members{ grid-template-columns: 1fr; }
+}
     .member-card{position:relative;border:1px solid #1c2432;border-radius:18px;padding:18px;background:linear-gradient(180deg,#12161e,#0b0e14 40%,#0a0c11);box-shadow:0 1px 0 #1b2230,inset 0 1px 0 #0b0e14}
     .avatar-wrap{position:relative;width:96px;height:96px;margin-bottom:10px}
     .avatar{position:absolute;inset:0;border-radius:999px;background-size:cover;background-position:center;z-index:2}
@@ -111,17 +129,17 @@
       </article>
       <article class="member-card">
         <div class="avatar-wrap">
-          <div class="avatar" data-src="URL_DEL_AVATAR"></div>
-        </div>
-        <h3 class="member-name">NK</h3>
-        <p class="member-meta">Rol: Main Killer/Survi</p>
-      </article>
-      <article class="member-card">
-        <div class="avatar-wrap">
           <div class="avatar" data-src="https://avatars.fastly.steamstatic.com/b014ff9c150af21fe19b8caa23f879df368f47a6_full.jpg"></div>
         </div>
         <h3 class="member-name">DieGaster</h3>
         <p class="member-meta">Rol: Main Killer</p>
+      </article>
+      <article class="member-card">
+        <div class="avatar-wrap">
+          <div class="avatar" data-src="URL_DEL_AVATAR"></div>
+        </div>
+        <h3 class="member-name">NK</h3>
+        <p class="member-meta">Rol: Main Killer/Survi</p>
       </article>
       <article class="member-card">
         <div class="avatar-wrap">
