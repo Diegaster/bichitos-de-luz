@@ -556,28 +556,7 @@ section.section[aria-expanded="true"] > h2::after {
     }
   }
 
-  // 2) Colapsar todo el contenido principal (incluye el texto IMPORTANTE)
-  const headerH1 = document.querySelector('.header h1');
-  const headerImportant = document.querySelector('.header p');
-  const main = document.querySelector('main');
-
-  // Creamos contenedores colapsables sin tocar tu HTML: aplicamos clases en vivo
-  if (headerImportant) {
-    headerImportant.classList.add('collapsible', 'collapsed');
-    headerImportant.style.maxHeight = '0px';
-  }
-  if (main) {
-    main.classList.add('collapsible', 'collapsed');
-    main.style.maxHeight = '0px';
-  }
-
-  if (headerH1) {
-    headerH1.setAttribute('aria-expanded', 'false');
-    headerH1.addEventListener('click', () => {
-      toggleCollapsible(headerH1, [headerImportant, main].filter(Boolean));
-    });
-  }
-
+ 
   // 3) Cada jugador: su <h2> despliega/oculta su .grid
   document.querySelectorAll('section.section').forEach(section => {
     const title = section.querySelector(':scope > h2');
